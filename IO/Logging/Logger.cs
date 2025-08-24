@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
+using LocalAdmin.V2.Core;
 
 namespace LocalAdmin.V2.IO.Logging;
 
@@ -25,7 +26,12 @@ public static class Logger
 
         _totalLength = 0;
         _totalEntries = 0;
-        _logPath = dir + $"LocalAdmin Log {DateTime.Now:yyyy-MM-dd HH.mm.ss}.txt";
+        Config? configuration = Core.LocalAdmin.Configuration;
+        if (!configuration.KeepSameLog)
+            _logPath = dir + $"LocalAdmin Log {DateTime.Now:yyyy-MM-dd HH.mm.ss}.txt";
+        else
+            _logPath = dir + $"LocalAdmin Log.txt";
+
         _logging = true;
 
         Log($"{ConsoleUtil.GetLogsTimestamp()} Logging started.");

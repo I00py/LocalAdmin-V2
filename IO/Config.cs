@@ -8,6 +8,7 @@ public class Config
     private static readonly string[] SplitArray = { ": " };
 
     public bool RestartOnCrash = true;
+    public bool KeepSameLog = false;
     public bool EnableHeartbeat = true;
     public bool SetTerminalTitle = true;
     public bool LaLiveViewUseUtc;
@@ -40,6 +41,9 @@ public class Config
 
         sb.Append("restart_on_crash: ");
         sb.AppendLine(RestartOnCrash.ToString().ToLowerInvariant());
+
+        sb.Append("keep_same_log: ");
+        sb.AppendLine(KeepSameLog.ToString().ToLowerInvariant());
 
         sb.Append("enable_heartbeat: ");
         sb.AppendLine(EnableHeartbeat.ToString().ToLowerInvariant());
@@ -127,6 +131,9 @@ public class Config
             {
                 case "restart_on_crash" when bool.TryParse(sp[1], out var b):
                     cfg.RestartOnCrash = b;
+                    break;
+                case "keep_same_log" when bool.TryParse(sp[1], out var b):
+                    cfg.KeepSameLog = b;
                     break;
 
                 case "enable_heartbeat" when bool.TryParse(sp[1], out var b):
@@ -243,6 +250,7 @@ public class Config
         var sb = new StringBuilder();
 
         sb.AppendLine(RestartOnCrash ? "- Server will be automatically restarted after a crash." : "- Server will NOT be automatically restarted after a crash.");
+        sb.AppendLine(KeepSameLog ? "- Server will keep the same log" : "- Server will not keep the same log.");
         sb.AppendLine(EnableHeartbeat ? "- LocalAdmin will attempt to detect silent server crashes (heartbeat enabled)." : "- LocalAdmin will NOT attempt to detect silent server crashes (heartbeat DISABLED).");
         sb.AppendLine(SetTerminalTitle ? "- LocalAdmin will attempt to show its current status in your terminal title." : "- LocalAdmin will NOT attempt to show its current status in your terminal title.");
         sb.AppendLine(LaLiveViewUseUtc ? "- LocalAdmin live view will use UTC timezone." : "- LocalAdmin live view will use local timezone.");
